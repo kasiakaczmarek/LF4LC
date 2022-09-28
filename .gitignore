@@ -1,0 +1,6 @@
+*.Rhistory
+*.Rproj.user
+.Rproj.user/**
+*.RData
+python_LS_module/python_scripts/.idea/**
+python_LS_module/python_scripts/help/**
