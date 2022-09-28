@@ -1,0 +1,10 @@
+[workspace]
+restore_data_on_startup = True
+save_data_on_exit = True
+save_history = True
+save_non_project_files = False
+
+[main]
+version = 0.2.0
+recent_files = ['..\\..\\..\\..\\..\\.spyder-py3\\temp.py', '01_run_experiments.py', '02_generate_segments.py', '03_time_series_analysis.py', '04_set_up_ling_vars.py', '05_summarize_segments.py']
+
