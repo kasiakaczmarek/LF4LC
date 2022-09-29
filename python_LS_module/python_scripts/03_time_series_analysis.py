@@ -35,20 +35,20 @@ import statsmodels.api as sm
 a = Series(T['Intensity'].astype(np.float))
 #, index=data['RetentionTime'])
 
-fig = plt.figure(1, figsize=(20,10))
-fig.suptitle('ACF and PACF of data and diff(1) ')
-    
-subplot1 = fig.add_subplot(231)   #top left
-subplot1 = a.plot()
-subplot1.set_title("TS: ")
-subplot2 = fig.add_subplot(232)   #top right
-subplot2.plot(np.array(statsmodels.tsa.stattools.acf(a, unbiased=False, nlags=10, qstat=False, fft=False, alpha=None)).astype(np.float), 'ro')
-subplot2.set_title("ACF")
-#subplot2.plot(arma_t.acf(10), 'go')
-subplot3 = fig.add_subplot(233)   #bottom left
-subplot3.plot(np.array(statsmodels.tsa.stattools.pacf(a, nlags=10, method='ywunbiased', alpha=None)).astype(np.float), 'ro')
-#subplot3.plot(arma_t.pacf(10), 'go')
-subplot3.set_title("PACF") 
+# fig = plt.figure(1, figsize=(20,10))
+# fig.suptitle('ACF and PACF of data and diff(1) ')
+#
+# subplot1 = fig.add_subplot(231)   #top left
+# subplot1 = a.plot()
+# subplot1.set_title("TS: ")
+# subplot2 = fig.add_subplot(232)   #top right
+# subplot2.plot(np.array(statsmodels.tsa.stattools.acf(a, unbiased=False, nlags=10, qstat=False, fft=False, alpha=None)).astype(np.float), 'ro')
+# subplot2.set_title("ACF")
+# #subplot2.plot(arma_t.acf(10), 'go')
+# subplot3 = fig.add_subplot(233)   #bottom left
+# subplot3.plot(np.array(statsmodels.tsa.stattools.pacf(a, nlags=10, method='ywunbiased', alpha=None)).astype(np.float), 'ro')
+# #subplot3.plot(arma_t.pacf(10), 'go')
+# subplot3.set_title("PACF")
 
 acf = statsmodels.tsa.stattools.acf(a, unbiased=False, nlags=3, qstat=False, fft=False, alpha=None)
 acf1 = statsmodels.tsa.stattools.acf(a, unbiased=False, nlags=10, qstat=False, fft=False, alpha=None)[1]
@@ -74,14 +74,14 @@ adiff = a.diff(periods = roznica)
 srednia = np.mean(adiff[roznica:])
 adiff[roznica:] = adiff[roznica:]-srednia
 
-subplot1 = fig.add_subplot(234)   #top left
-subplot1 = adiff.plot()
-subplot1.set_title("Diff")
-subplot2 = fig.add_subplot(235)   #top right
-subplot2.plot(np.array(statsmodels.tsa.stattools.acf(adiff[roznica:], unbiased=False, nlags=10, qstat=False, fft=False, alpha=None)).astype(np.float), 'ro')
-subplot2.set_title("ACF(diff): "+str(roznica))
-subplot3 = fig.add_subplot(236)   #bottom left
-subplot3.plot(np.array(statsmodels.tsa.stattools.pacf(adiff[roznica:], nlags=10, method='ywunbiased', alpha=None)).astype(np.float), 'ro', linewidth=0)
-subplot3.set_title("PACF(diff): "+str(roznica))
-#fig.savefig(name+"_autocorrelations.png")
-plt.close(fig)
+# subplot1 = fig.add_subplot(234)   #top left
+# subplot1 = adiff.plot()
+# subplot1.set_title("Diff")
+# subplot2 = fig.add_subplot(235)   #top right
+# subplot2.plot(np.array(statsmodels.tsa.stattools.acf(adiff[roznica:], unbiased=False, nlags=10, qstat=False, fft=False, alpha=None)).astype(np.float), 'ro')
+# subplot2.set_title("ACF(diff): "+str(roznica))
+# subplot3 = fig.add_subplot(236)   #bottom left
+# subplot3.plot(np.array(statsmodels.tsa.stattools.pacf(adiff[roznica:], nlags=10, method='ywunbiased', alpha=None)).astype(np.float), 'ro', linewidth=0)
+# subplot3.set_title("PACF(diff): "+str(roznica))
+# #fig.savefig(name+"_autocorrelations.png")
+# plt.close(fig)

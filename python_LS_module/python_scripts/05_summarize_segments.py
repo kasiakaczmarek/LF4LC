@@ -19,14 +19,15 @@ czesc = np.arange(0, 1.01, 0.01)
 majority = fuzz.trapmf(czesc, [0.5, 0.7, 1, 1])
 mniejszosc = fuzz.trapmf(czesc, [0, 0, 0.4, 0.55])
 prawie_wszystkie = fuzz.trapmf(czesc, [0.7, 0.8, 1, 1])
-fig, (ax0) = plt.subplots(nrows=1, figsize=(8, 9))
-ax0.plot(czesc, majority, 'b', linewidth=1.5, label='majority')
-ax0.plot(czesc, mniejszosc, 'g', linewidth=1.5, label='minority')
-ax0.plot(czesc, prawie_wszystkie, 'r', linewidth=1.5, label='almost_all')
-ax0.set_title('kwantyfikator')
-ax0.legend(loc = 'lower left')
-ax0.set_ylim([0, 1.05])
-plt.close(fig)
+
+# fig, (ax0) = plt.subplots(nrows=1, figsize=(8, 9))
+# ax0.plot(czesc, majority, 'b', linewidth=1.5, label='majority')
+# ax0.plot(czesc, mniejszosc, 'g', linewidth=1.5, label='minority')
+# ax0.plot(czesc, prawie_wszystkie, 'r', linewidth=1.5, label='almost_all')
+# ax0.set_title('kwantyfikator')
+# ax0.legend(loc = 'lower left')
+# ax0.set_ylim([0, 1.05])
+# plt.close(fig)
 
 #################
 # Funkcje do fuzzyfikacji odpowiednich segmentow szeregu  

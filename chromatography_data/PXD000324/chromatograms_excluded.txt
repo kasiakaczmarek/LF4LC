@@ -1,1 +1,2 @@
 QC_Shew_13_01_pt5_c_23Feb13_Cougar_12-12-35.RAW_Ms_TIC_chromat
+QC_Shew_12_02_HCD_35_Lynx_12-06-01.RAW_Ms_TIC_chromatogram.txt

@@ -53,7 +53,6 @@ QC_Shew_12_02_C_10Dec12_Jaguar_12-09-19
 QC_Shew_12_02_c_21Oct12_Cougar_12-06-03
 QC_Shew_12_02_D_20Dec12_Jaguar_12-09-20
 QC_Shew_12_02_D_3Jan13_Jaguar_12-09-20
-QC_Shew_12_02_HCD_35_Lynx_12-06-01
 QC_Shew_12_02_pt5_1_13Oct12_Cougar_12-06-03
 QC_Shew_12_02_pt5_1_14Oct12_Cougar_12-06-03
 QC_Shew_12_02_pt5_1_24Oct12_Cougar_12-06-04
