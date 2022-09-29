@@ -20,8 +20,8 @@ dir.create(CLASSIFICATION_OUTPUT_PATH, showWarnings = FALSE)
 source(file.path(classification_dir, "scripts", "_functions.R"))
 
 # instrument <- "324"
-# instrument <- "323"
-instrument <- "complete_dataset"
+instrument <- "323"
+# instrument <- "complete_dataset"
 
 # create scenarios ---------------------------
 data_wide <- readRDS(file.path(DATA_WIDE_PATH, paste0("data_wide", instrument, "normalized01.RDS")))
@@ -238,14 +238,13 @@ scenario <- c(names(svmRadial_summary))
 svmRadial <- bind_rows(svmRadial_summary) %>% cbind(scenario) %>% mutate(model = "svmRadial")
 
 
-
 time.end <- Sys.time()
 time.end - time.start
 
 
 # classification results ------------------------------------------------------------------------
 classification_results <- rbind(xgboost, C5.0, rf, svmRadial)
-result_file_name <- paste0("classification_results_on_", instrument, "_using", dim_red_method ,".csv")
+result_file_name <- paste0("classification_results_on_", instrument, ".csv")
 write.csv(classification_results, 
           file.path(CLASSIFICATION_OUTPUT_PATH, result_file_name), row.names = FALSE)
 
