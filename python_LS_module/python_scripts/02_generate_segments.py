@@ -33,13 +33,10 @@ x = pd.DataFrame(dtype = float, data = {'Intensity': T["Intensity"]})
 x['RetentionTime'] = range(len(x))
 T = x
 
-# standardization of dependent variable: intensity
-T["Intensity"] = preprocessing.scale(T["Intensity"])*100
-
 def error(T):
     T = T.fillna(method='pad')
     model = linear_model.LinearRegression()
- 
+
     x = T['RetentionTime'].tolist()
     y = T['Intensity'].tolist()
     xx = array(x)
@@ -56,7 +53,7 @@ def error(T):
 def create_segment(T, j):
     T = T.fillna(method='pad')
     model = linear_model.LinearRegression()
- 
+
     x = T['RetentionTime'].tolist()
     y = T['Intensity'].tolist()
     xx = np.array(x)
@@ -66,7 +63,7 @@ def create_segment(T, j):
     x = xx.transpose()
     y = yy.transpose()
     model.fit(x,y)
-    
+
     poczatekR = np.array([min(x), model.coef_[0][0]*min(x) + model.intercept_])
     koniecR = np.array([max(x), model.coef_[0][0]*max(x) + model.intercept_])
     lengtR = ((koniecR[1]-poczatekR[1])**2 + (koniecR[0]-poczatekR[0])**2)**.5
@@ -74,8 +71,8 @@ def create_segment(T, j):
     variabilityR = np.abs(koniecR[1]-poczatekR[1])
     mseR = np.mean((model.predict(x) - y) ** 2)
     # time faze wstepna, srodkowa, koncowa
-    
-    
+
+
     d = {
         'cecha': ['numer', 'poczatek', 'koniec', 'lengt', 'dynamics', 'variability', 'mse', 'time'],
         'R': [j, poczatekR, koniecR, lengtR[0], dynamicsR[0], variabilityR[0], mseR, poczatekR[0]]
@@ -86,12 +83,12 @@ def create_segment(T, j):
 def concat(seg_ts, seg_new, j):
     seg_ts = seg_ts.append(seg_new, ignore_index=True)
     return seg_ts
-    
+
 def sliding_window(T,max_error):
     T = T.fillna(method='pad')
-    
+
     anchor = 1
-    j = 1 
+    j = 1
     while anchor < T.shape[0]:
         i = 2
         while error(T.iloc[anchor:(anchor+i),]) < max_error:
@@ -106,11 +103,11 @@ def sliding_window(T,max_error):
         anchor = anchor + i
         j = j + 1
         print(anchor, j)
-        
+
     return seg_ts
 
 
-# PLOT with segments
+# PLOT with segments - no Intensity standarization
 start = 0
 end = T.shape[0]
 
@@ -121,6 +118,24 @@ for i in range(df2.shape[0]):
     plt.plot([df2.iloc[i, 1][0], df2.iloc[i, 2][0]],
              [df2.iloc[i, 1][1], df2.iloc[i, 2][1]], color = "teal", lw = 2, alpha = 0.7)
 
+if if_plot: plt.savefig(os.path.join(path_segments_plots, "no_standard" + label + name_of_example + "_segments.pdf"), bbox_inches = 'tight')
+plt.close()
+
+
+# standardization of dependent variable: intensity
+T["Intensity"] = preprocessing.scale(T["Intensity"])*100
+
+start = 0
+end = T.shape[0]
+
+df2 = sliding_window(T.iloc[start:end, ], max_error)
+plt.figure(figsize=(12, 10))
+plt.plot(T['RetentionTime'][start:end], T['Intensity'][start:end], c = 'black', ls = ('dotted'), lw = 1)
+for i in range(df2.shape[0]):
+    plt.plot([df2.iloc[i, 1][0], df2.iloc[i, 2][0]],
+             [df2.iloc[i, 1][1], df2.iloc[i, 2][1]], color = "teal", lw = 2, alpha = 0.7)
+
+# real time on x axis
 locs, labels = xticks()
 l = len(T['RetentionTime'][start:end])
 nr_of_labels = 15
@@ -131,7 +146,7 @@ a.astype(str)
 label_step = floor(l/(nr_of_labels-1))
 xticks(np.arange(0, l, step=label_step), a.astype(str))
 
-if if_plot: plt.savefig(os.path.join(path_plots, label + name_of_example + "_segments.pdf"), bbox_inches = 'tight')
+if if_plot: plt.savefig(os.path.join(path_segments_plots, label + name_of_example + "_segments.pdf"), bbox_inches = 'tight')
 plt.close()
 
 #df3 = sliding_window(T,max_error)

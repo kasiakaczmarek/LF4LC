@@ -65,15 +65,14 @@ portfolio = "PXD000324"
 scripts_dir = "python_LS_module/python_scripts"
 data_dir = "chromatography_data"
 output_dir = "python_LS_module/output"
-plots_dir = "python_LS_module/plots"
+plots_dir = "plots"
 
 path_scripts = os.path.join(parent_dir, scripts_dir)
 path_data_portfolio = os.path.join(parent_dir, data_dir, portfolio)
 
 path_output = os.path.join(parent_dir, output_dir, portfolio, name_of_run)
-path_plots = os.path.join(parent_dir, plots_dir, portfolio, name_of_run)
 os.makedirs(path_output, exist_ok=True)
-os.makedirs(path_plots, exist_ok=True)
+
 
 # load list of chistograms
 f = open(os.path.join(path_data_portfolio, "chromatograms_good.txt"), 'r')
@@ -102,8 +101,11 @@ label = '_good_'
 if(all_summaries):k = len(good)
 for i in range(k):
     print(good[i])
-    # i=91
+    # i=0
     name_of_example = good[i][:-1]
+    path_segments_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio, name_of_example)
+    os.makedirs(path_segments_plots, exist_ok=True)
+    path_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio)
     table_name = path_output
     name = os.path.join(path_data_portfolio, name_of_example + '.RAW_Ms_TIC_chromatogram.txt')
     data_ms_tic = pd.read_table(name, sep = "\t")#[start:end]
@@ -122,8 +124,10 @@ label = '_poor_'
 if(all_summaries):k = len(poor)
 for i in range(k):
     print(poor[i])
-    i = 56
+    # i = 56
     name_of_example=poor[i][:-1]
+    path_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio, name_of_example)
+    os.makedirs(path_plots, exist_ok=True)
     table_name = path_output
     name = os.path.join(path_data_portfolio, name_of_example + '.RAW_Ms_TIC_chromatogram.txt')
     data_ms_tic = pd.read_table(name, sep="\t")#[start:end]
