@@ -6,20 +6,24 @@ library(ggplot2)
 # source("Chromatography_LS_preparation/config.R")
 
 name_of_run <- "20220928"
+variant <- "_for_full_results"
+variant <- "_for_validation_on323"
 
 DATA_WIDE_PATH <- file.path("R_classification_module", "data_prepared")
 classification_dir <- "R_classification_module"
 output_dir <- "output"
 CLASSIFICATION_OUTPUT_PATH <- file.path(classification_dir, output_dir, name_of_run)
 
-
 file <- list.files(DATA_WIDE_PATH, pattern = ".*complete_datasetnormal.*\\.RDS$", full.names=TRUE)
-
-OUTPUT_PATH <- file.path("side_analysis&LS_plots", name_of_run, variant)
-dir.create(OUTPUT_PATH)
 
 data <- readRDS(file) 
 data <- data %>% mutate(label = ifelse(label == 0, "good", "poor"))
+
+file <- list.files(DATA_WIDE_PATH, pattern = ".*wide_complete.RDS$", full.names=TRUE)
+
+ids <- readRDS(file) 
+ids <- ids %>% 
+        select(instrument, label, id)
 
 
 if(variant == "_for_full_results"){
@@ -84,7 +88,7 @@ for(i in seq(1:length(variables))){
         histograms_lst[[i]] <- h
 }
 
-pdf(file.path("side_analysis&LS_plots/20220928", "relative_histograms.pdf"), width = 16, height = 8)
+pdf(file.path("plots", name_of_run, "all_variables_relative_histograms.pdf"), width = 16, height = 8)
 for(i in seq(1:length(variables))){
         print(histograms_lst[[i]])
 }
@@ -95,31 +99,30 @@ dev.off()
 
 # plot bar plots ------------------------------------------------------------------------------
 
-chromatograms <- read.csv("side_analysis&LS_plots/chromatograms_for_barplots.csv")
-
-chromatograms$id %in% data$id
-
-dir.create(file.path(OUTPUT_PATH, "LS_features_dot"))
-for(i in chromatograms$id){
-
-        # i = chromatograms$id[1]
+for(i in 1:length(ids$id)){
+        
+        # i = 341
+        print(i)
         df_plot <- data %>%
-                filter(id == i) 
+                filter(id == ids$id[i]) 
         
         df_plot_ls <- df_plot %>%
                 select(feature_set$variable) %>%
                 select(contains("Most"))
-
-
-        pdf(file.path(OUTPUT_PATH, "LS_features_dot", paste0("barplot_", df_plot$label, "_", i, ".pdf")), 
-            width = 12, height=10)
+        
+        if(variant == "_for_full_results"){
+                OUTPUT_PATH <- file.path("plots", name_of_run, paste0("PXD000",ids$instrument[i]), 
+                                 ids$id[i], "barplot_DoT_LS_val_complete_dataset.pdf")}
+        else{        OUTPUT_PATH <- file.path("plots", name_of_run, paste0("PXD000",ids$instrument[i]), 
+                                              ids$id[i], "barplot_DoT_LS_val_on_323.pdf")}
+        pdf(OUTPUT_PATH, width = 12, height=10)
         par(mar = c(5, 25, 4, 4) + 0.1)
         barplot(t(df_plot_ls)[,1], 
                 names.arg = colnames(df_plot_ls),
                 xlab="degree of truth",
                 horiz = TRUE,
-                main = paste0(df_plot$label, "_", i),
+                main = paste0(df_plot$label, "_", ids$id[i]),
                 las = 1) 
         dev.off()
-
+        
 }

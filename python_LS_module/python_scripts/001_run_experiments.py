@@ -126,8 +126,9 @@ for i in range(k):
     print(poor[i])
     # i = 56
     name_of_example=poor[i][:-1]
-    path_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio, name_of_example)
-    os.makedirs(path_plots, exist_ok=True)
+    path_segments_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio, name_of_example)
+    os.makedirs(path_segments_plots, exist_ok=True)
+    path_plots = os.path.join(parent_dir, plots_dir, name_of_run, portfolio)
     table_name = path_output
     name = os.path.join(path_data_portfolio, name_of_example + '.RAW_Ms_TIC_chromatogram.txt')
     data_ms_tic = pd.read_table(name, sep="\t")#[start:end]
